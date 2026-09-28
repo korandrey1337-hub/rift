@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+    />
+    <title>Capsule Rift</title>
+    <meta
+      name="description"
+      content="Гача-JRPG про космического агента, капсулы героев и автобои на аренах разлома."
+    />
+    <link rel="stylesheet" href="styles.css?v=hub-map-1" />
+  </head>
+  <body>
+    <div class="game-shell">
+      <section class="stage-card" aria-label="Игровой экран">
+        <canvas id="game" width="1280" height="800"></canvas>
+
+        <div class="top-hud">
+          <div class="brand">
+            <strong>Capsule Rift</strong>
+            <span id="modeLabel">Агентский хаб</span>
+          </div>
+          <div class="wallet">
+            <span>Монеты <b id="coins">0</b></span>
+            <span>Осколки <b id="shards">0</b></span>
+            <span>Этап <b id="stage">1</b></span>
+            <button id="statsButton" class="stats-button" type="button">Статы</button>
+            <button id="guideButton" class="stats-button guide-button" type="button">Гайд</button>
+          </div>
+        </div>
+
+        <button id="questChip" class="quest-chip" type="button" aria-label="Текущая цель">
+          <span id="questStep">Цель</span>
+          <strong id="questTitle">Открой брифинг агента</strong>
+        </button>
+
+        <div id="interactionPrompt" class="interaction-prompt">
+          WASD / стрелки - ходить · E - взаимодействовать · кликай по станциям
+        </div>
+
+        <div class="touch-controls" aria-label="Сенсорное управление">
+          <div class="dpad" aria-label="Движение">
+            <button type="button" data-dir="up" aria-label="Вверх">▲</button>
+            <button type="button" data-dir="left" aria-label="Влево">◀</button>
+            <button type="button" data-dir="right" aria-label="Вправо">▶</button>
+            <button type="button" data-dir="down" aria-label="Вниз">▼</button>
+          </div>
+          <div class="touch-actions">
+            <button id="touchTeamButton" type="button">Отряд</button>
+            <button id="touchMenuButton" type="button">Меню</button>
+            <button id="touchInteractButton" class="primary-touch" type="button">E</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side-panel" aria-label="Панель игры">
+        <div class="panel-block objective">
+          <span class="eyebrow">Что делать</span>
+          <strong id="objectiveTitle">Исследуй хаб агента</strong>
+          <p id="objectiveText">
+            Крути капсулы, улучшай героев, фарми монеты и отправляй команду в разлом.
+          </p>
+        </div>
+
+        <div class="panel-block">
+          <div class="section-title">
+            <span class="eyebrow">Команда</span>
+            <button id="healTeamButton" type="button">Вылечить</button>
+          </div>
+          <div id="teamList" class="team-list"></div>
+        </div>
+
+        <div id="battleActions" class="panel-block battle-actions hidden">
+          <span class="eyebrow">Автобой</span>
+          <strong id="autoStatus">Отряд сражается сам</strong>
+          <p>Камень бьет ножницы, ножницы режут бумагу, бумага накрывает камень.</p>
+          <button id="speedButton" type="button">Скорость x1</button>
+          <button id="runAwayButton" type="button">Вернуться в хаб</button>
+        </div>
+
+        <div class="panel-block roster-block">
+          <div class="section-title">
+            <span class="eyebrow">Коллекция</span>
+            <div class="section-actions">
+              <span id="ownedCount">0/0</span>
+              <button id="openRosterButton" type="button">Отряд</button>
+            </div>
+          </div>
+          <div id="rosterList" class="roster-list"></div>
+        </div>
+
+        <div class="panel-block log-block">
+          <span class="eyebrow">Журнал</span>
+          <div id="log" class="log"></div>
+        </div>
+      </aside>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <button id="closeModal" class="modal-close" type="button" aria-label="Закрыть">×</button>
+        <span id="modalKicker" class="eyebrow">Хаб</span>
+        <h2 id="modalTitle">Заголовок</h2>
+        <div id="modalBody" class="modal-body"></div>
+        <div id="modalActions" class="modal-actions"></div>
+      </div>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+    <script src="game.js?v=hub-map-1" defer></script>
+  </body>
+</html>
