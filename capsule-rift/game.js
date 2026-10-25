@@ -1304,6 +1304,7 @@ function pullCapsule() {
 
   save.tutorial = normalizeTutorial(save.tutorial);
   save.tutorial.firstPull = true;
+  window.RiftHub?.pull(save);
   persist();
   renderAll();
   openGacha(template, duplicate, shards);
@@ -1360,6 +1361,7 @@ function playDailyContract(signal) {
   }
 
   save.daily.contractsLeft -= 1;
+  window.RiftHub?.contracts(save.daily.contractsLeft);
   const stable = choice(["alpha", "beta", "gamma"]);
   const success = signal === stable;
   const coins = success ? Math.round(rand(95, 145)) : Math.round(rand(42, 76));
@@ -1432,6 +1434,7 @@ function fuseUnit(id) {
   if (!owned || owned.copies < 3) return;
   owned.copies -= 3;
   owned.level += 1;
+  window.RiftHub?.fuse();
   save.shards += 5;
   bumpStat("upgrades");
   bumpStat("shardsEarned", 5);
@@ -1505,6 +1508,7 @@ function startBattle() {
   persist();
 
   battle = {
+    hubRun: window.RiftHub?.start(save.stage),
     party: partyIds.map((id) => makeBattleUnit(id)),
     waves,
     waveIndex: 0,
@@ -1711,6 +1715,8 @@ function updateFx(dt) {
 }
 
 function winBattle() {
+  if (!battle) return;
+  window.RiftHub?.end(battle.hubRun, true, battle.waveIndex + 1);
   const coins = 155 + save.stage * 44;
   const shards = 14 + Math.floor(save.stage * 1.5);
   save.coins += coins;
@@ -1730,6 +1736,8 @@ function winBattle() {
 }
 
 function loseBattle() {
+  if (!battle) return;
+  window.RiftHub?.end(battle.hubRun, false, battle.waveIndex + 1);
   const coins = 35 + save.stage * 9;
   save.coins += coins;
   bumpStat("battlesLost");
@@ -1745,6 +1753,7 @@ function loseBattle() {
 
 function leaveBattle() {
   if (battle) {
+    window.RiftHub?.end(battle.hubRun, false, battle.waveIndex + 1, true);
     bumpStat("battlesAbandoned");
     persist();
   }
